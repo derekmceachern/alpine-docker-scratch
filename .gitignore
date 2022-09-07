@@ -1,0 +1,3 @@
+*.gz
+alpine-make-rootfs
+Dockerfile
