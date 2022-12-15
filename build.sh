@@ -7,7 +7,7 @@ set -e
 # Set the version of alpine linux that we want to use and the
 # name of the image we are going to create
 #
-ALPINE_VER="${ALPINE_VER:-3.16}"
+ALPINE_VER="${ALPINE_VER:-3.17}"
 DKR_IMAGE="derekm/alpine:${ALPINE_VER}"
 
 # Set the list of packages that we want to install in the base image
@@ -62,8 +62,8 @@ function build {
     #echo "73948b9ee3580d6d9dc277ec2d9449d941e32818  alpine-make-rootfs" | sha1sum -c -
 
     # Version that disables root login - pr opened to merge change
-    wget https://raw.githubusercontent.com/derekmceachern/alpine-make-rootfs/disable-root-login/alpine-make-rootfs -O "$MKROOTFS"
-    echo "7ec7cdce76c66f112a3579772a85d802c1b2a1bc  alpine-make-rootfs" | sha1sum -c -
+    wget https://raw.githubusercontent.com/alpinelinux/alpine-make-rootfs/v0.6.1/alpine-make-rootfs -O "$MKROOTFS"
+    echo "73948b9ee3580d6d9dc277ec2d9449d941e32818  alpine-make-rootfs" | sha1sum -c -
     chmod +x "${MKROOTFS}"
     
     # Run the make rootfs script. It needs to run as root.
