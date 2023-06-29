@@ -13,8 +13,7 @@ DKR_IMAGE="${DKR_PREFIX}/alpine:${ALPINE_VER}"
 
 # Set the list of packages that we want to install in the base image
 # For a list of possible packages you can sift through the following
-#  http://dl-cdn.alpinelinux.org/alpine/
-#    http://dl-cdn.alpinelinux.org/alpine/v3.16/main/x86_64/
+#    http://dl-cdn.alpinelinux.org/alpine/v3.18
 #
 PACKAGES="apk-tools ca-certificates bash ssl_client"
 EXTENDED_PACKAGES="sudo nmap nmap-scripts curl openssl lynx git s3cmd"
