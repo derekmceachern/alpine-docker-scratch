@@ -7,8 +7,9 @@ set -e
 # Set the version of alpine linux that we want to use and the
 # name of the image we are going to create
 #
-ALPINE_VER="${ALPINE_VER:-3.17}"
-DKR_IMAGE="derekm/alpine:${ALPINE_VER}"
+ALPINE_VER="${ALPINE_VER:-3.18}"
+DKR_PREFIX="derekm"
+DKR_IMAGE="${DKR_PREFIX}/alpine:${ALPINE_VER}"
 
 # Set the list of packages that we want to install in the base image
 # For a list of possible packages you can sift through the following
@@ -16,6 +17,7 @@ DKR_IMAGE="derekm/alpine:${ALPINE_VER}"
 #    http://dl-cdn.alpinelinux.org/alpine/v3.16/main/x86_64/
 #
 PACKAGES="apk-tools ca-certificates bash ssl_client"
+EXTENDED_PACKAGES="sudo nmap nmap-scripts curl openssl lynx git s3cmd"
 
 #######################################################################
 
@@ -35,6 +37,10 @@ function usage {
     echo ""
     echo "OPTIONS"
     echo " -h     Print this message"
+    echo " -e     Add extended packages. These are tools I find handy in my"
+    echo "         image for debugging, testing, and doing other stuff"
+    echo "         Additional packages are:"
+    echo "          ${EXTENDED_PACKAGES}"
     echo " -x     Enable trace for script"
     echo ""
     echo "ADVANCED OPTIONS"
@@ -58,10 +64,6 @@ function build {
     # Check the following github repo for details: 
     #  https://github.com/alpinelinux/alpine-make-rootfs
     #
-    #wget https://raw.githubusercontent.com/alpinelinux/alpine-make-rootfs/v0.6.1/alpine-make-rootfs -O "$MKROOTFS"
-    #echo "73948b9ee3580d6d9dc277ec2d9449d941e32818  alpine-make-rootfs" | sha1sum -c -
-
-    # Version that disables root login - pr opened to merge change
     wget https://raw.githubusercontent.com/alpinelinux/alpine-make-rootfs/v0.6.1/alpine-make-rootfs -O "$MKROOTFS"
     echo "73948b9ee3580d6d9dc277ec2d9449d941e32818  alpine-make-rootfs" | sha1sum -c -
     chmod +x "${MKROOTFS}"
@@ -97,12 +99,18 @@ DOCKERFILE
     cd "${CURRDIR}"
 }
 
-while getopts ":hx" opt
+while getopts ":hex" opt
 do
   case ${opt} in
     h )
       usage
       exit 0
+      ;;
+
+    e )
+      # Use extended package list
+      PACKAGES="${PACKAGES} ${EXTENDED_PACKAGES}"
+      DKR_IMAGE="${DKR_PREFIX}/alpine-extended:${ALPINE_VER}"
       ;;
 
     x )
