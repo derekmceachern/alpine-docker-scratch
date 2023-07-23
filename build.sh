@@ -16,7 +16,7 @@ DKR_IMAGE="${DKR_PREFIX}/alpine:${ALPINE_VER}"
 #    http://dl-cdn.alpinelinux.org/alpine/v3.18
 #
 PACKAGES="apk-tools ca-certificates bash ssl_client"
-EXTENDED_PACKAGES="sudo nmap nmap-scripts curl openssl lynx git s3cmd"
+EXTENDED_PACKAGES="7zip aspell aspell-en aspell-lang sudo nmap nmap-scripts curl openssl lynx git s3cmd"
 
 #######################################################################
 
